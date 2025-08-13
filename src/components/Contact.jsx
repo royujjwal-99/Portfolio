@@ -1,7 +1,8 @@
-"use client"
-
+import React from "react"
 import { useEffect, useState } from "react"
 import { Mail, Phone, MapPin, Send, MessageCircle, Linkedin, Github } from "lucide-react"
+import emailjs from 'emailjs-com';
+
 
 export default function Contact() {
   const [isVisible, setIsVisible] = useState(false)
@@ -19,7 +20,7 @@ export default function Contact() {
           setIsVisible(true)
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     )
 
     const element = document.getElementById("contact")
@@ -27,6 +28,23 @@ export default function Contact() {
 
     return () => observer.disconnect()
   }, [])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    emailjs.send(
+      'service_aaj0868',
+      'template_uve2mem',
+      formData,
+      'Nh1RBmZXCq8Rc7QRg'
+    )
+      .then((result) => {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      }, (error) => {
+        alert("Failed to send message, please try again later.");
+      });
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -39,21 +57,21 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email",
-      value: "rujjwal785@gmail.com",
+      value: "rujjwal@gmail.com",
       href: "mailto:rujjwal785@gmail.com",
       color: "from-cyan-400 to-blue-500",
     },
     {
       icon: Phone,
       title: "Phone",
-      value: "+9693245119",
+      value: "+91 9693245119",
       href: "tel:+919693245119",
       color: "from-purple-400 to-pink-500",
     },
     {
       icon: MapPin,
       title: "Location",
-      value: "Bhubaneswar , INDIA",
+      value: "Bhubaneswar, India",
       href: "https://maps.app.goo.gl/ZpMKDKoHdH9gs6BQ7?g_st=aw",
       color: "from-pink-400 to-red-500",
     },
@@ -61,23 +79,19 @@ export default function Contact() {
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/royujjwal-99", label: "GitHub", color: "hover:text-gray-300" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/ujjwal-kumar-roy", label: "LinkedIn", color: "hover:text-blue-400" },
+    { icon: Linkedin, href: "https://linkedin.com/ujjwal kumar Roy", label: "LinkedIn", color: "hover:text-blue-400" },
     { icon: MessageCircle, href: "sms:+919693245119?body=Hello%20Ujjwal!", label: "Discord", color: "hover:text-purple-400" },
   ]
 
   return (
-    <section
-      id="contact"
-      className="min-h-screen flex items-center justify-center py-20 relative"
-    >
+    <section id="contact" className="py-20 relative">
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent"></div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div
-          className={`transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           {/* Section header */}
           <div className="text-center mb-16">
@@ -111,9 +125,8 @@ export default function Contact() {
                     <a
                       key={title}
                       href={href}
-                      className={`group flex items-center p-6 bg-black/40 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-gray-600 transition-all duration-300 hover:scale-105 ${
-                        isVisible ? "animate-fade-in" : ""
-                      }`}
+                      className={`group flex items-center p-6 bg-black/40 backdrop-blur-sm rounded-2xl border border-gray-800 hover:border-gray-600 transition-all duration-300 hover:scale-105 ${isVisible ? "animate-fade-in" : ""
+                        }`}
                       style={{ animationDelay: `${index * 200}ms` }}
                     >
                       {/* Icon with glow */}
@@ -162,7 +175,77 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* You can add a contact form here if needed */}
+              {/* Contact Form */}
+              <div className={`${isVisible ? "animate-fade-in" : ""}`} style={{ animationDelay: "600ms" }}>
+                <div className="relative p-8 bg-black/40 backdrop-blur-sm rounded-2xl border border-gray-800">
+                  {/* Form glow */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-purple-500/5 to-pink-500/5 rounded-2xl"></div>
+
+                  <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
+
+                  <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Your Name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="bg-black/60 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-xl h-12"
+                        />
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Your Email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="bg-black/60 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-xl h-12"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <input
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                        className="bg-black/60 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-xl h-12"
+                      />
+                    </div>
+
+                    <div>
+                      <textarea
+                        name="message"
+                        placeholder="Your Message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={6}
+                        className="bg-black/60 border-gray-700 text-white placeholder-gray-400 focus:border-cyan-500 focus:ring-cyan-500/20 rounded-xl resize-none"
+                      ></textarea>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="group relative w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-600 hover:to-purple-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25"
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        <Send className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform duration-300" />
+                        Send Message
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -70,7 +70,7 @@ export default function Resume() {
             {/* Download button */}
             <button className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl text-white font-semibold transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/25">
 
-              <a href="https://drive.google.com/file/d/1LbqO43O5xRgg2KmTB9eFYmDp8kPQO_CR/view?usp=drivesdk" >
+              <a href="https://drive.google.com/uc?export=download&id=1LbqO43O5xRgg2KmTB9eFYmDp8kPQO_CR" >
                 <span className="relative z-10 flex items-center">
                   <Download className="w-5 h-5 mr-2 group-hover:animate-bounce" />
                   Download Full Resume
